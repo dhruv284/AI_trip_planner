@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import Provider from "./Provider";
 
 
 export const metadata: Metadata = {
@@ -19,8 +20,11 @@ export default function RootLayout({
       className={outfit.className}
         
       >
-        {children}
-      </body>
+        <Provider>
+          {children}
+        </Provider>
+        
+      </body> 
     </html>
   );
 }
