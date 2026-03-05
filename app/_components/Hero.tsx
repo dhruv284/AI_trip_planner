@@ -1,8 +1,8 @@
 import React from 'react'
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button";
-import { Globe2, Send, Plane, Landmark} from "lucide-react";
-
+import { Globe2, Send, Plane, Landmark, ArrowDown} from "lucide-react";
+import { HeroVideoDialog } from "@/components/ui/hero-video-dialog"
 const suggestions=[
     {
         title: 'Create New Trip',
@@ -52,6 +52,18 @@ function Hero() {
                     </div>
                 ))}
             </div>
+            <div className='flex items-center justify-center flex-col'>
+                <h2 className='my-7 mt-14 flex gap-2 text-center'>Not sure where to start? <strong>See how it works</strong><ArrowDown></ArrowDown></h2>
+                <HeroVideoDialog
+                    className="block dark:hidden"
+                    animationStyle="from-center"
+                    videoSrc="https://www.example.com/dummy-video"
+                    thumbnailSrc="https://mma.prnewswire.com/media/2401528/1_MindtripProduct.jpg?p=facebook"
+                    thumbnailAlt="Dummy Video Thumbnail"
+                />
+
+            </div>
+            
         </div>
     </div>
   )
