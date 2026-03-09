@@ -5,6 +5,9 @@ function Provider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const CreateNewUser=()=>{
+    
+  }
   return (
     <div>
         <Header/>
