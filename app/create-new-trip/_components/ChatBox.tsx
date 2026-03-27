@@ -2,10 +2,14 @@
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader, Send } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import EmptyBoxState from './EmptyBoxState'
 import GroupSizeUi from './GroupSizeUi'
+import BudgetUi from './BudgetUi'
+import SelectDays from './SelectDays'
+import InterestsUi from './InterestsUi'
+import FinalUi from './FinalUi'
 
 type Message={
     role: string,
@@ -17,6 +21,7 @@ function ChatBox() {
     const [messages,setMessages]=useState<Message[]>([])
     const [userInput,setUserInput] = useState<string>()   
     const [loading,setLoading]=useState(false)
+    const [isFinal,setIsFinal]=useState(false)
     const onsend=async ()=>{
         if (!userInput?.trim()){
             return 
@@ -29,27 +34,48 @@ function ChatBox() {
         }
         setMessages((prev:Message[])=>[...prev,newMsg]);
         const result= await axios.post('/api/aimodel',{
-            messages: [...messages,newMsg]
+            messages: [...messages,newMsg],
+            isFinal: isFinal
         })
-        setMessages((prev: Message[])=>[...prev,{
+        console.log("TRIP",result.data)
+        !isFinal && setMessages((prev: Message[])=>[...prev,{
             role: 'assistant',
             content: result?.data?.resp,
             ui: result?.data?.ui
         }])
-        console.log(result.data)
+        
         setLoading(false)
 
     }
     const RenderGenerativeUi=(ui:string)=>{
         if (ui=="budget"){
+            return <BudgetUi onSelectOption={(v:string)=>{setUserInput(v); onsend()}}/>
             
         }
         else if (ui=="groupSize"){
             return <GroupSizeUi onSelectOption={(v:string)=>{setUserInput(v); onsend()}}/>
             
         }
+        else if (ui=="tripDuration"){
+            return <SelectDays onSelectedOption={(v:string)=>{setUserInput(v); onsend()}}/>
+        }
+        else if (ui=="interests"){
+            return <InterestsUi onSelectOption={(v:string)=>{setUserInput(v); onsend()}}/>
+        }
+        else if(ui=="final"){
+            return <FinalUi viewTrip={()=> console.log()}/>
+        }
+        
         return null
     }
+    useEffect(()=>{
+        const lastMsg=messages[messages.length-1]
+        if (lastMsg?.ui=='final'){
+            setIsFinal(true)
+            setUserInput('Ok, Great')
+            onsend();
+        }
+    },[messages])
   return (
     
     <div className='h-[85vh] flex flex-col'>
