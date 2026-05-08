@@ -12,7 +12,7 @@ import InterestsUi from './InterestsUi'
 import FinalUi from './FinalUi'
 import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
-import { useUserDetail } from '@/app/Provider'
+import { useTripDetail, useUserDetail } from '@/app/Provider'
 import { v4 as uuidv4 } from 'uuid';
 type Message = {
     role: string,
@@ -26,9 +26,44 @@ export type TripInfo={
     duration: string,
     group_size: string,
     origin: string,
-    hotels: any,
-    itinerary: any,
+    hotels: Hotel[],
+    itinerary: Itinerary,
 }
+
+export type Hotel={
+    hotel_name: string,
+    hotel_address: string,
+    price_per_night: string,
+    hotel_image_url: string,
+    geo_coordinates: {
+        latitude: number,
+        longitude: number,
+    },
+    rating: number,
+    description: string,
+}
+
+export type Activity={
+    place_name: string,
+    place_details: string,
+    place_image_url: string,
+    geo_coordinates: {
+        latitude: number,
+        longitude: number,
+    },
+    place_address: string,
+    ticket_pricing: string,
+    time_travel_each_location: string,
+    best_time_to_visit: string,
+}
+
+export type Itinerary={
+    day: number,
+    day_plan: string,
+    best_time_to_visit_day: string,
+    activites: Activity[]
+}
+
 function ChatBox() {
 
     const [messages, setMessages] = useState<Message[]>([])
@@ -38,6 +73,8 @@ function ChatBox() {
     const [tripDetail, setTripDetail]=useState<TripInfo>()
     const SaveTripDetail=useMutation(api.tripDetail.CreateTripDetail)
     const {userDetail,setUserDetail}=useUserDetail()
+    //@ts-ignore
+    const {tripDetailInfo,setTripDetailInfo}=useTripDetail()
     const onsend = async (overrideInput?: string, overrideIsFinal?: boolean) => {
         const input = overrideInput ?? userInput;
         if (!input?.trim()) return;
@@ -63,6 +100,7 @@ function ChatBox() {
 
         if (finalFlag) {
             setTripDetail(result?.data?.trip_plan)
+            setTripDetailInfo(result?.data?.trip_plan)
             const tripId = uuidv4();
             await SaveTripDetail({
                 tripDetail: result?.data?.trip_plan,
