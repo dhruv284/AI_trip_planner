@@ -132,7 +132,7 @@ function Itinerary() {
       content: (
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
           {tripData?.hotels.map((hotel,index)=>(
-            <HotelCardItem key={index} hotel={hotel}> </HotelCardItem>
+            <HotelCardItem key={index} hotel={hotel}/> 
             
 
           ))}
@@ -146,7 +146,7 @@ function Itinerary() {
             <p>Best Time :{dayData?.best_time_to_visit_day}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 {dayData?.activities.map((activity,index)=>(
-                    <PlaceCardItem key={index} activity={activity}></PlaceCardItem>
+                    <PlaceCardItem key={index} activity={activity}/>
                     
                 ))}
             </div>
