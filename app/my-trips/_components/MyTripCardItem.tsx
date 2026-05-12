@@ -8,6 +8,8 @@ type Props={
     trip: Trip
 }
 function MyTripCardItem({trip}:Props) {
+  console.log(trip)
+  console.log("tripId from card", trip?.tripId)
   const [photoUrl,setPhotoUrl]=useState<string>()
     
       useEffect(()=>{
