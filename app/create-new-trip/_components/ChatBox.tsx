@@ -27,7 +27,7 @@ export type TripInfo={
     group_size: string,
     origin: string,
     hotels: Hotel[],
-    itinerary: Itinerary,
+    itinerary: Itinerary[],
 }
 
 export type Hotel={
@@ -61,7 +61,7 @@ export type Itinerary={
     day: number,
     day_plan: string,
     best_time_to_visit_day: string,
-    activites: Activity[]
+    activities: Activity[]
 }
 
 function ChatBox() {
