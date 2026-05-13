@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 
 const menuOptions = [
   { name: 'Home', path: '/' },
-  { name: 'Explore', path: '/pricing' },
+  
   { name: 'Contact Us', path: '/contact-us' }
 ];
 
